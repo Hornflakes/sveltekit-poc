@@ -1,10 +1,19 @@
 <script lang="ts">
-    import type { PageData } from './$types';
     import { fly, slide } from 'svelte/transition';
-    import { navigating } from '$app/stores';
+    import { navigating, page } from '$app/stores';
     import Loading from '$lib/components/Loading.svelte';
+    import { favorites } from '$lib/stores/favorites';
+    import type { Country } from '$lib/models/country.js';
 
-    export let data: PageData;
+    export let data;
+
+    const toggleFavorite = (country: Country): void => {
+        if ($favorites[country.name]) {
+            favorites.remove(country);
+        } else {
+            favorites.add(country);
+        }
+    };
 </script>
 
 <div class="centered">
@@ -13,7 +22,12 @@
     <form>
         <label>
             search countries:
-            <input name="name" autocomplete="country-name" required />
+            <input
+                name="name"
+                value={$page.url.searchParams.get('name')}
+                autocomplete="country-name"
+                required
+            />
         </label>
     </form>
 
@@ -26,7 +40,11 @@
             <ul class="countries" in:fly={{ y: 20 }} out:slide>
                 {#each data.countries as country}
                     <li>
-                        {country.name.common}
+                        <span>{country.name}</span>
+                        <button
+                            class:active={$favorites[country.name]}
+                            on:click={() => toggleFavorite(country)}
+                        />
                     </li>
                 {/each}
             </ul>
@@ -49,6 +67,7 @@
     input {
         flex: 1;
     }
+
     ul.countries {
         padding: 0;
     }
@@ -65,5 +84,28 @@
         background: var(--bg-1);
         filter: drop-shadow(2px 3px 6px rgba(0, 0, 0, 0.1));
         transition: filter 0.2s, opacity 0.2s;
+    }
+
+    span {
+        flex: 1;
+    }
+
+    button {
+        border: none;
+        background: url(./heart.svg) no-repeat 50% 50%;
+        background-size: 1rem 1rem;
+        cursor: pointer;
+        height: 100%;
+        aspect-ratio: 1;
+        opacity: 0.5;
+        transition: opacity 0.2s;
+    }
+
+    button:hover {
+        opacity: 1;
+    }
+
+    button.active {
+        opacity: 1;
     }
 </style>

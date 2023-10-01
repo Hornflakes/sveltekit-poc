@@ -1,6 +1,6 @@
-import type { PageLoad } from './$types';
+import { adaptCountries } from '$lib/models/country';
 
-export const load: PageLoad = async ({ fetch, url }) => {
+export const load = async ({ fetch, url }) => {
     const name = url.searchParams.get('name');
 
     if (!name) return { countries: [] };
@@ -9,6 +9,6 @@ export const load: PageLoad = async ({ fetch, url }) => {
 
     if (response.status === 404) return { countries: [], noResults: true };
 
-    const countries = response.json();
-    return { countries };
+    const countries = await response.json();
+    return { countries: adaptCountries(countries) };
 };
