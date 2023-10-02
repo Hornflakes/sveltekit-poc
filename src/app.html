@@ -197,12 +197,24 @@
                 border-radius: var(--border-radius);
             }
 
-            ul.todos {
+            .centered {
+                max-width: 20em;
+                margin: 0 auto;
+            }
+
+            label {
+                width: 100%;
+            }
+
+            input {
+                flex: 1;
+            }
+
+            ul.countries {
                 padding: 0;
             }
 
-            ul.todos li:not(:has(> form)),
-            ul.todos li form {
+            ul.countries li {
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -216,27 +228,26 @@
                 transition: filter 0.2s, opacity 0.2s;
             }
 
-            ul.todos .done {
-                filter: none;
-                opacity: 0.4;
+            span {
+                flex: 1;
             }
 
-            ul.todos button {
+            button.heart {
                 border: none;
-                background-color: transparent;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
+                background: url('src/lib/assets/heart.svg') no-repeat 50% 50%;
                 background-size: 1rem 1rem;
                 cursor: pointer;
-                width: 3em;
-                height: 3em;
-                margin: -0.5em -0.5em -0.5em 0;
+                height: 100%;
                 aspect-ratio: 1;
                 opacity: 0.5;
                 transition: opacity 0.2s;
             }
 
-            ul.todos button:hover {
+            button.heart:hover {
+                opacity: 1;
+            }
+
+            button.heart.active {
                 opacity: 1;
             }
 

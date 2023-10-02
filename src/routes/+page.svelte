@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Welcome!</h1>
+<img src="src/lib/assets/roll.gif" alt="never gonna give you up" />
+
+<style>
+    img {
+        max-width: calc(100vw - 2rem);
+    }
+</style>

@@ -6,12 +6,10 @@ export const favorites = (() => {
 
     return {
         subscribe,
-        add: (country: Country) =>
+        toggle: (country: Country) =>
             update((countries) => {
-                return { ...countries, [country.name]: country };
-            }),
-        remove: (country: Country) =>
-            update((countries) => {
+                if (!countries[country.name]) return { ...countries, [country.name]: country };
+
                 const { [country.name]: _, ...otherCountries } = countries;
                 return otherCountries;
             }),

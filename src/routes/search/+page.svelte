@@ -3,17 +3,8 @@
     import { navigating, page } from '$app/stores';
     import Loading from '$lib/components/Loading.svelte';
     import { favorites } from '$lib/stores/favorites';
-    import type { Country } from '$lib/models/country.js';
 
     export let data;
-
-    const toggleFavorite = (country: Country): void => {
-        if ($favorites[country.name]) {
-            favorites.remove(country);
-        } else {
-            favorites.add(country);
-        }
-    };
 </script>
 
 <div class="centered">
@@ -42,8 +33,9 @@
                     <li>
                         <span>{country.name}</span>
                         <button
+                            class="heart"
                             class:active={$favorites[country.name]}
-                            on:click={() => toggleFavorite(country)}
+                            on:click={() => favorites.toggle(country)}
                         />
                     </li>
                 {/each}
@@ -53,59 +45,3 @@
         {/if}
     {/key}
 </div>
-
-<style>
-    .centered {
-        max-width: 20em;
-        margin: 0 auto;
-    }
-
-    label {
-        width: 100%;
-    }
-
-    input {
-        flex: 1;
-    }
-
-    ul.countries {
-        padding: 0;
-    }
-
-    ul.countries li {
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding: 0.5em 0.5em 0.5em 1em;
-        margin: 0 0 0.5em 0;
-        gap: 0.5em;
-        border-radius: 5px;
-        user-select: none;
-        background: var(--bg-1);
-        filter: drop-shadow(2px 3px 6px rgba(0, 0, 0, 0.1));
-        transition: filter 0.2s, opacity 0.2s;
-    }
-
-    span {
-        flex: 1;
-    }
-
-    button {
-        border: none;
-        background: url(./heart.svg) no-repeat 50% 50%;
-        background-size: 1rem 1rem;
-        cursor: pointer;
-        height: 100%;
-        aspect-ratio: 1;
-        opacity: 0.5;
-        transition: opacity 0.2s;
-    }
-
-    button:hover {
-        opacity: 1;
-    }
-
-    button.active {
-        opacity: 1;
-    }
-</style>
