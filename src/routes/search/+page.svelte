@@ -2,9 +2,11 @@
     import { fly, slide } from 'svelte/transition';
     import { navigating, page } from '$app/stores';
     import Loading from '$lib/components/Loading.svelte';
-    import { favorites } from '$lib/stores/favorites';
+    import { getFavoritesContext } from '$lib/stores/favorites.js';
 
     export let data;
+
+    const favorites = getFavoritesContext();
 </script>
 
 <div class="centered">

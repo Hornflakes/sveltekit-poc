@@ -1,5 +1,8 @@
-<script>
+<script lang="ts">
     import { page } from '$app/stores';
+    import { setFavoritesContext } from '$lib/stores/favorites';
+
+    setFavoritesContext();
 </script>
 
 <nav>

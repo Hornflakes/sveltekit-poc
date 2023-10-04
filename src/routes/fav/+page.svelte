@@ -1,6 +1,8 @@
 <script lang="ts">
-    import { favorites } from '$lib/stores/favorites';
+    import { getFavoritesContext } from '$lib/stores/favorites';
     import { fly } from 'svelte/transition';
+
+    const favorites = getFavoritesContext();
 </script>
 
 <div class="centered">
