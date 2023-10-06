@@ -1,11 +1,13 @@
 <script lang="ts">
+    import { enhance } from '$app/forms';
+
     export let form;
 </script>
 
 <div class="centered">
     <h1>login</h1>
 
-    <form method="POST">
+    <form method="POST" use:enhance>
         <label>
             username
             <input name="username" autocomplete="username" required />
