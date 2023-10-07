@@ -2,6 +2,7 @@
     import { fly, slide } from 'svelte/transition';
     import { navigating, page } from '$app/stores';
     import Loading from '$lib/components/Loading.svelte';
+    import heart from '$lib/assets/heart.svg';
     import { getFavoritesContext } from '$lib/stores/favorites.js';
 
     export let data;
@@ -35,6 +36,7 @@
                     <li>
                         <span>{country.name}</span>
                         <button
+                            style="background-image: url({heart})"
                             class="heart"
                             class:active={$favorites[country.name]}
                             on:click={() => favorites.toggle(country)}

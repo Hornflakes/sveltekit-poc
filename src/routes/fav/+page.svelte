@@ -1,6 +1,7 @@
 <script lang="ts">
     import { getFavoritesContext } from '$lib/stores/favorites';
     import { fly } from 'svelte/transition';
+    import heart from '$lib/assets/heart.svg';
 
     const favorites = getFavoritesContext();
 </script>
@@ -12,7 +13,11 @@
         {#each Object.values($favorites) as country}
             <li>
                 <span>{country.name}</span>
-                <button class="heart active" on:click={() => favorites.toggle(country)} />
+                <button
+                    style="background-image: url({heart})"
+                    class="heart active"
+                    on:click={() => favorites.toggle(country)}
+                />
             </li>
         {/each}
     </ul>

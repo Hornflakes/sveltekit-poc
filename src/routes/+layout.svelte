@@ -2,8 +2,14 @@
     import { enhance } from '$app/forms';
     import { page } from '$app/stores';
     import { setFavoritesContext } from '$lib/stores/favorites';
+    import { io } from 'socket.io-client';
 
     setFavoritesContext();
+
+    const socket = io();
+    socket.on('hello', (message) => {
+        console.log(message);
+    });
 </script>
 
 <nav>
