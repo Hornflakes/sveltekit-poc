@@ -1,16 +1,13 @@
-import { Server } from 'socket.io';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { type ViteDevServer, defineConfig, type PluginOption } from 'vite';
+import { handleSocketIO } from './socket-handler';
 
 const webSocketServer: PluginOption = {
     name: 'webSocketServer',
     configureServer: (server: ViteDevServer) => {
         if (!server.httpServer) return;
 
-        const io = new Server(server.httpServer);
-        io.on('connection', (socket) => {
-            socket.emit('hello', 'Hello');
-        });
+        handleSocketIO(server.httpServer);
     },
 };
 
