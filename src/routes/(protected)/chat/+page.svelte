@@ -17,9 +17,15 @@
             connections = message;
         });
 
-        socket.on('chat', (message) => {
+        socket.on('chat', (message: Message) => {
             messages.push(message);
             messages = messages;
+
+            if (document.hidden && message.username !== $page.data.user.name) {
+                new Notification(message.username, {
+                    body: message.text,
+                });
+            }
         });
 
         return () => socket.close();
