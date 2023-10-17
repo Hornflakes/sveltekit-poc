@@ -1,12 +1,10 @@
 <script>
-    import { Alert } from 'flowbite-svelte';
+    import { Alert, Heading } from 'flowbite-svelte';
 </script>
 
-<h1>kitchen sink</h1>
+<Heading tag="h1" class="my-4">kitchen sink</Heading>
 
-<div class="p-8">
-    <Alert>
-        <span class="font-medium">Info alert!</span>
-        Hello there.
-    </Alert>
-</div>
+<Alert>
+    <span class="font-medium">Info alert!</span>
+    Hello there.
+</Alert>

@@ -1,12 +1,13 @@
 <script>
     import roll from '$lib/assets/roll.gif';
+    import { Heading } from 'flowbite-svelte';
 </script>
 
-<h1>Welcome!</h1>
+<Heading tag="h1" class="my-5">Welcome!</Heading>
 <img src={roll} alt="never gonna give you up" />
 
 <style>
     img {
-        max-width: calc(100vw - 2rem);
+        max-height: calc(100vh - 12rem);
     }
 </style>

@@ -1,4 +1,5 @@
 <script>
+    import { Spinner } from 'flowbite-svelte';
     import { onMount } from 'svelte';
     import { fly, slide } from 'svelte/transition';
 
@@ -7,5 +8,5 @@
 </script>
 
 {#if !hidden}
-    <h2 in:fly={{ y: 20 }} out:slide>...loading</h2>
+    <div in:fly={{ y: 20 }} out:slide class="flex justify-center my-8"><Spinner size="16" /></div>
 {/if}

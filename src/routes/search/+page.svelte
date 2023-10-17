@@ -4,48 +4,53 @@
     import Loading from '$lib/components/Loading.svelte';
     import heart from '$lib/assets/heart.svg';
     import { getFavoritesContext } from '$lib/stores/favorites.js';
+    import { Heading, Label, Input, Card } from 'flowbite-svelte';
 
     export let data;
 
     const favorites = getFavoritesContext();
 </script>
 
-<div class="centered">
-    <h1>search</h1>
+<Heading tag="h1" class="my-4">search</Heading>
 
-    <form>
-        <label>
-            search countries:
-            <input
-                name="name"
-                value={$page.url.searchParams.get('name')}
-                autocomplete="country-name"
-                required
-            />
-        </label>
-    </form>
+<form class="max-w-xs">
+    <Label for="name" class="mb-2">search countries:</Label>
+    <Input
+        id="name"
+        size="lg"
+        name="name"
+        value={$page.url.searchParams.get('name')}
+        autocomplete="country-name"
+        required
+    />
+</form>
 
-    {#if !$navigating && data.noResults}
-        <h2 in:fly={{ y: 20 }} out:slide>no results... :(</h2>
-    {/if}
+{#if !$navigating && data.noResults}
+    <div class="my-4" in:fly={{ y: 20 }} out:slide>
+        <Heading tag="h2">no results... :(</Heading>
+    </div>
+{/if}
 
-    {#key data.countries}
-        {#if !$navigating}
-            <ul class="countries" in:fly={{ y: 20 }} out:slide>
-                {#each data.countries as country}
-                    <li>
-                        <span>{country.name}</span>
+{#key data.countries}
+    {#if !$navigating}
+        <ul in:fly={{ y: 20 }} out:slide class="flex flex-col gap-4 my-8">
+            {#each data.countries as country}
+                <Card size="xs" padding="md">
+                    <div class="flex items-center gap-4">
+                        <Heading tag="h6">{country.name}</Heading>
                         <button
                             style="background-image: url({heart})"
                             class="heart"
                             class:active={$favorites[country.name]}
                             on:click={() => favorites.toggle(country)}
                         />
-                    </li>
-                {/each}
-            </ul>
-        {:else}
+                    </div>
+                </Card>
+            {/each}
+        </ul>
+    {:else}
+        <div class="max-w-xs">
             <Loading />
-        {/if}
-    {/key}
-</div>
+        </div>
+    {/if}
+{/key}

@@ -1,43 +1,49 @@
 <script lang="ts">
+    import '../app.css';
     import { enhance } from '$app/forms';
     import { page } from '$app/stores';
     import { setFavoritesContext } from '$lib/stores/favorites';
+    import { Button, NavBrand, NavHamburger, NavLi, NavUl, Navbar } from 'flowbite-svelte';
 
     setFavoritesContext();
 </script>
 
-<nav>
-    <a href="/" aria-current={$page.url.pathname === '/'}>home</a>
-    <a href="/search" aria-current={$page.url.pathname === '/search'}>search</a>
-    <a href="/fav" aria-current={$page.url.pathname === '/fav'}>fav</a>
-    <a href="/kitchen-sink" aria-current={$page.url.pathname === '/kitchen-sink'}>kitchen sink</a>
+<Navbar let:NavContainer color="primary">
+    <NavContainer class="border px-5 py-2 rounded-lg bg-white dark:bg-gray-600">
+        <NavBrand href="/">
+            <span class="self-center whitespace-nowrap text-xl font-semibold">SvelteKit PoC</span>
+        </NavBrand>
 
-    {#if $page.data.user}
-        <a href="/chat" aria-current={$page.url.pathname === '/chat'}>chat</a>
+        <div class="flex items-center md:order-2">
+            {#if $page.data.user}
+                <form action="/logout" method="POST" use:enhance>
+                    <Button type="submit" color="light" size="xs">log out</Button>
+                </form>
+            {/if}
 
-        <form action="/logout" method="POST" use:enhance style="margin-left: auto">
-            <button type="submit">log out</button>
-        </form>
-    {/if}
+            <NavHamburger />
+        </div>
 
-    {#if !$page.data.user}
-        <a href="/login" aria-current={$page.url.pathname === '/login'} style="margin-left: auto">
-            login
-        </a>
-        <a href="/register" aria-current={$page.url.pathname === '/register'}>register</a>
-    {/if}
-</nav>
+        <NavUl activeUrl={$page.url.pathname}>
+            <NavLi href="/">home</NavLi>
+            <NavLi href="/search">search</NavLi>
+            <NavLi href="/fav">fav</NavLi>
+            <NavLi href="/kitchen-sink">kitchen sink</NavLi>
 
-<slot />
+            {#if $page.data.user}
+                <NavLi href="/chat" style="margin-right: auto">chat</NavLi>
+            {/if}
+        </NavUl>
 
-<style>
-    button {
-        background: white;
-        color: var(--fg-1);
-        padding: 0.125rem 0.25rem;
-    }
+        {#if !$page.data.user}
+            <NavUl activeUrl={$page.url.pathname}>
+                <NavLi href="/login">login</NavLi>
+                <NavLi href="/register">register</NavLi>
+            </NavUl>
+        {/if}
+    </NavContainer>
+</Navbar>
 
-    button:hover {
-        outline: 1px solid var(--fg-1);
-    }
-</style>
+<div class="container mx-auto px-2">
+    <slot />
+</div>
