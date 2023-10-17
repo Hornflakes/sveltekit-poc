@@ -10,6 +10,7 @@
     <a href="/" aria-current={$page.url.pathname === '/'}>home</a>
     <a href="/search" aria-current={$page.url.pathname === '/search'}>search</a>
     <a href="/fav" aria-current={$page.url.pathname === '/fav'}>fav</a>
+    <a href="/kitchen-sink" aria-current={$page.url.pathname === '/kitchen-sink'}>kitchen sink</a>
 
     {#if $page.data.user}
         <a href="/chat" aria-current={$page.url.pathname === '/chat'}>chat</a>
