@@ -14,8 +14,18 @@
         Dropzone,
         Indicator,
         Range,
+        TextPlaceholder,
+        Tooltip,
+        Modal,
+        TableSearch,
+        TableHead,
+        TableHeadCell,
+        TableBody,
+        TableBodyRow,
+        TableBodyCell,
     } from 'flowbite-svelte';
     import { CheckCircleSolid, ChevronDownSolid, ChevronRightSolid } from 'flowbite-svelte-icons';
+    import { writable } from 'svelte/store';
 
     let selectedCountry: string;
     let countries: SelectOptionType<string>[] = [
@@ -27,11 +37,56 @@
         { value: 2, name: 'Fries' },
         { value: 3, name: 'Milkshake' },
     ];
+    let showModal = false;
     let dropzoneValue: any = [];
+
+    type TableKey = 'id' | 'maker' | 'type' | 'make';
+    let items = [
+        { id: 1, maker: 'Toyota', type: 'ABC', make: 2017 },
+        { id: 2, maker: 'Ford', type: 'CDE', make: 2018 },
+        { id: 3, maker: 'Volvo', type: 'FGH', make: 2019 },
+        { id: 4, maker: 'Saab', type: 'IJK', make: 2020 },
+    ];
+    const searchTerm = writable<string>('');
+    const sortKey = writable<TableKey>('id');
+    const sortDirection = writable(1);
+    const searchedItems = writable(items.slice());
+    $: {
+        const term = $searchTerm;
+        const searched = items.filter(
+            (item) => item.maker.toLowerCase().indexOf(term.toLowerCase()) !== -1,
+        );
+        searchedItems.set(searched);
+    }
+    $: {
+        const key = $sortKey;
+        const direction = $sortDirection;
+        const sorted = $searchedItems.sort((a, b) => {
+            const aVal = a[key];
+            const bVal = b[key];
+            if (aVal < bVal) {
+                return -direction;
+            } else if (aVal > bVal) {
+                return direction;
+            }
+            return 0;
+        });
+        searchedItems.set(sorted);
+    }
 
     const country = (value: string): SelectOptionType<string> =>
         countries.find((c) => c.value === selectedCountry);
-    const dropHandle = (event) => {
+
+    const sortTable = (key: TableKey) => {
+        if ($sortKey === key) {
+            sortDirection.update((val) => -val);
+        } else {
+            sortKey.set(key);
+            sortDirection.set(1);
+        }
+    };
+
+    const dropHandle = (event: any) => {
         dropzoneValue = [];
         event.preventDefault();
         if (event.dataTransfer.items) {
@@ -60,7 +115,7 @@
     const showFiles = (files: any) => {
         if (files.length === 1) return files[0];
         let concat = '';
-        files.map((file) => {
+        files.map((file: any) => {
             concat += file;
             concat += ',';
             concat += ' ';
@@ -112,7 +167,10 @@
     <Range value={50} />
 </Label>
 
-<Button>Dropdown button<ChevronDownSolid class="w-3 h-3 ml-2 text-white dark:text-white" /></Button>
+<Button id="btn">
+    Dropdown button
+    <ChevronDownSolid class="w-3 h-3 ml-2 text-white dark:text-white" />
+</Button>
 <Dropdown>
     <DropdownItem>Dashboard</DropdownItem>
     <DropdownItem class="flex items-center justify-between">
@@ -126,6 +184,93 @@
     <DropdownItem>Earnings</DropdownItem>
     <DropdownItem slot="footer">Sign out</DropdownItem>
 </Dropdown>
+<Tooltip triggeredBy="[id^='btn']">Tooltip content</Tooltip>
+
+<Button on:click={() => (showModal = true)} autoclose outsideclose>Show modal</Button>
+
+<Modal title="Terms of Service" bind:open={showModal}>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        With less than a month to go before the European Union enacts new consumer privacy laws for
+        its citizens, companies around the world are updating their terms of service agreements to
+        comply.
+    </p>
+    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May
+        25 and is meant to ensure a common set of data rights in the European Union. It requires
+        organizations to notify users as soon as possible of high-risk data breaches that could
+        personally affect them.
+    </p>
+    <svelte:fragment slot="footer">
+        <Button on:click={() => alert('Handle "success"')}>I accept</Button>
+        <Button color="alternative" on:click={() => (showModal = false)}>Decline</Button>
+    </svelte:fragment>
+</Modal>
 
 <ol class="flex items-center my-4">
     <li class="relative w-full mb-6">
@@ -189,6 +334,25 @@
     </li>
 </ol>
 
+<TableSearch placeholder="Search by maker name" hoverable={true} bind:inputValue={$searchTerm}>
+    <TableHead>
+        <TableHeadCell on:click={() => sortTable('id')}>ID</TableHeadCell>
+        <TableHeadCell on:click={() => sortTable('maker')}>Maker</TableHeadCell>
+        <TableHeadCell on:click={() => sortTable('type')}>Type</TableHeadCell>
+        <TableHeadCell on:click={() => sortTable('make')}>Make</TableHeadCell>
+    </TableHead>
+    <TableBody>
+        {#each $searchedItems as item}
+            <TableBodyRow>
+                <TableBodyCell>{item.id}</TableBodyCell>
+                <TableBodyCell>{item.maker}</TableBodyCell>
+                <TableBodyCell>{item.type}</TableBodyCell>
+                <TableBodyCell>{item.make}</TableBodyCell>
+            </TableBodyRow>
+        {/each}
+    </TableBody>
+</TableSearch>
+
 <Dropzone
     class="my-4"
     on:drop={dropHandle}
@@ -222,3 +386,5 @@
         <p>{showFiles(dropzoneValue)}</p>
     {/if}
 </Dropzone>
+
+<TextPlaceholder class="mt-8 mb-6" />
