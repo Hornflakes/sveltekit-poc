@@ -28,6 +28,7 @@
             <NavLi href="/">home</NavLi>
             <NavLi href="/search">search</NavLi>
             <NavLi href="/fav">fav</NavLi>
+            <NavLi href="/chart">chart</NavLi>
             <NavLi href="/kitchen-sink">kitchen sink</NavLi>
 
             {#if $page.data.user}
