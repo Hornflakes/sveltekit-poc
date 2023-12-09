@@ -13,7 +13,7 @@
         "format": "prettier --plugin-search-dir . --write ."
     },
     "prisma": {
-        "seed": "ts-node prisma/seed.ts"
+        "seed": "node prisma/seed.js"
     },
     "devDependencies": {
         "@sveltejs/adapter-auto": "^2.0.0",
@@ -49,7 +49,6 @@
         "flowbite-svelte-icons": "^0.4.5",
         "leaflet": "^1.9.4",
         "socket.io": "^4.7.2",
-        "socket.io-client": "^4.7.2",
-        "ts-node": "^10.9.2"
+        "socket.io-client": "^4.7.2"
     }
 }
