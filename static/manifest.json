@@ -3,6 +3,7 @@
     "short_name": "SvelteKit PoC",
     "display": "fullscreen",
     "start_url": "/",
+    "theme_color": "#fff4f2",
     "icons": [
         {
             "src": "/icon.png",

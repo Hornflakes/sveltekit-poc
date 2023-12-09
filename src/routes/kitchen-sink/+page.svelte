@@ -125,6 +125,12 @@
         concat += '...';
         return concat;
     };
+
+    const showNativeNotification = () => {
+        new Notification('Hello world!', {
+            body: 'This is a native notification.',
+        });
+    };
 </script>
 
 <Heading tag="h1" class="my-4">kitchen sink</Heading>
@@ -186,9 +192,11 @@
 </Dropdown>
 <Tooltip triggeredBy="[id^='btn']">Tooltip content</Tooltip>
 
-<Button on:click={() => (showModal = true)} autoclose outsideclose>Show modal</Button>
+<Button on:click={() => (showModal = true)}>Show modal</Button>
 
-<Modal title="Terms of Service" bind:open={showModal}>
+<Button on:click={showNativeNotification}>Show native notification</Button>
+
+<Modal title="Terms of Service" bind:open={showModal} autoclose outsideclose>
     <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
         With less than a month to go before the European Union enacts new consumer privacy laws for
         its citizens, companies around the world are updating their terms of service agreements to
