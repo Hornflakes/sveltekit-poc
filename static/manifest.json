@@ -1,0 +1,19 @@
+{
+    "name": "SvelteKit PoC",
+    "short_name": "SvelteKit PoC",
+    "display": "fullscreen",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/maskable-icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
