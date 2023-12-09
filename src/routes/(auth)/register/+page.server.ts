@@ -1,5 +1,4 @@
 import { db } from '$lib/server/database/database.js';
-import { Roles } from '$lib/models/roles.js';
 import { fail, redirect } from '@sveltejs/kit';
 import bcrypt from 'bcrypt';
 
@@ -31,11 +30,6 @@ export const actions = {
                 name: username,
                 passwordHash: await bcrypt.hash(password, 10),
                 authToken: crypto.randomUUID(),
-                role: {
-                    connect: {
-                        name: Roles.USER,
-                    },
-                },
             },
         });
 
