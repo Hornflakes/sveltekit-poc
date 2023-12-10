@@ -127,6 +127,18 @@
     };
 
     const showNativeNotification = () => {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    notify();
+                }
+            });
+        } else {
+            notify();
+        }
+    };
+
+    const notify = () => {
         new Notification('Hello world!', {
             body: 'This is a native notification.',
         });
